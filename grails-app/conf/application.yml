@@ -1,4 +1,7 @@
 ---
+server:
+  contextPath: /alohavolunteer
+---
 grails:
     profile: web
     codegen:
