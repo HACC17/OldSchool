@@ -11,8 +11,13 @@ class HelloControllerSpec extends Specification implements ControllerUnitTest<He
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
+    void "test action which renders text"() {
+
+        when:
+        controller.index()
+
+        then:
+        status == 200
+        response.text == "Hello Grails!"
     }
 }

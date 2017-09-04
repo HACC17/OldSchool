@@ -2,5 +2,7 @@ package alohavolunteer
 
 class HelloController {
 
-    def index() { }
+    def index() {
+        render "Hello Grails!"
+    }
 }
