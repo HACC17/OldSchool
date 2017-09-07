@@ -1,6 +1,9 @@
----
+configCheck: from application.yml
+spring:
+    profiles:
+        active: ${user.name}  # e.g., application-jbeutel.yml overrides
 server:
-  contextPath: /alohavolunteer
+    contextPath: /alohavolunteer
 ---
 grails:
     profile: web

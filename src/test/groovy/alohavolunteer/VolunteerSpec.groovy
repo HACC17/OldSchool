@@ -2,7 +2,6 @@ package alohavolunteer
 
 import grails.testing.gorm.DomainUnitTest
 import grails.validation.ValidationException
-import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -11,7 +10,7 @@ import spock.lang.Unroll
  * This is more of a demo of a Spock test, because Volunteer doesn't have much specific code yet.
  * Volunteer's functionality is mainly that of the Grails framework, but a unit test
  * within that framework can actually test only a limited amount of it.
- * {@link VolunteerHibernateSpec} can test more, and an integration test could test the most.
+ * VolunteerIntegrationSpec can test more.
  */
 class VolunteerSpec extends Specification implements DomainUnitTest<Volunteer> {
 
@@ -35,6 +34,15 @@ class VolunteerSpec extends Specification implements DomainUnitTest<Volunteer> {
     }
 
     def cleanup() {
+    }
+
+    void "config for GrailsUnitTest is consistent, with profiles overriding"() {
+
+        given:
+        def profileOverride = System.properties['user.name'] == 'jbeutel' ? '-jbeutel' : ''
+
+        expect:
+        config['configCheck'] == "from application${profileOverride}.yml"
     }
 
     @Unroll
