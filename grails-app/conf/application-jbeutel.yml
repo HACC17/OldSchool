@@ -1,1 +1,23 @@
 configCheck: from application-jbeutel.yml
+
+# The duplicate code in environments seems to be required in Grails 3.3.0:
+# https://stackoverflow.com/questions/46138943/does-the-grails-3-3-environments-config-work-inconsistently-in-spring-profiles
+environments:
+    development:
+        dataSource:
+            dbCreate: create-drop
+            url: jdbc:postgresql://localhost:5432/alohavolunteer
+            driverClassName: org.postgresql.Driver
+            username: avdbusr
+    test:
+        dataSource:
+            dbCreate: create-drop
+            url: jdbc:postgresql://localhost:5432/alohavolunteer
+            driverClassName: org.postgresql.Driver
+            username: avdbusr
+    production:
+        dataSource:
+            dbCreate: create-drop
+            url: jdbc:postgresql://localhost:5432/alohavolunteer
+            driverClassName: org.postgresql.Driver
+            username: avdbusr

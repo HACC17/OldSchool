@@ -1,1 +1,1 @@
-web: cd build ; java -Dgrails.env=prod -jar ../build/server/webapp-runner-*.jar --expand-war --port $PORT libs/*.war
+web: cd build ; java -Dgrails.env=prod -Dspring.profiles.active=heroku -jar ../build/server/webapp-runner-*.jar --expand-war --port $PORT libs/*.war

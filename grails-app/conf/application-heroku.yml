@@ -1,0 +1,10 @@
+# The duplicate code in environments seems to be required in Grails 3.3.0:
+# https://stackoverflow.com/questions/46138943/does-the-grails-3-3-environments-config-work-inconsistently-in-spring-profiles
+environments:
+    production:
+        dataSource:
+            dbCreate: update
+            url: ${JDBC_DATASOURCE_URL}
+            driverClassName: org.postgresql.Driver
+            username: ${JDBC_DATASOURCE_USERNAME}
+            password: ${JDBC_DATASOURCE_PASSWORD}
