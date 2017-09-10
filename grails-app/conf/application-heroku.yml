@@ -6,6 +6,5 @@ environments:
             dbCreate: update
             url: ${JDBC_DATABASE_URL}
             driverClassName: org.postgresql.Driver
-            dialect: org.hibernate.dialect.PostgreSQL94Dialect
             username: ${JDBC_DATABASE_USERNAME}
             password: ${JDBC_DATABASE_PASSWORD}
