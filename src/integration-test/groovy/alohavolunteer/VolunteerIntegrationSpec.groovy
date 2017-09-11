@@ -36,12 +36,12 @@ class VolunteerIntegrationSpec extends Specification {
 
         given: "one persisted Volunteer"
         def v1 = constructExampleVolunteer()
-        v1.save()
+        v1.save(flush: true)
 
         when: "saving another Volunteer with a different email address"
         def v2 = constructExampleVolunteer()
         v2.email = 'bar@example.com'
-        v2.save()
+        v2.save(flush: true)
 
         then: "it was added"
         Volunteer.count() == old(Volunteer.count()) + 1
@@ -49,7 +49,7 @@ class VolunteerIntegrationSpec extends Specification {
 
         when: "trying to save another Volunteer with a duplicate email address"
         def v3 = constructExampleVolunteer()
-        v3.save()
+        v3.save(flush: true)
 
         then: "the global grails.gorm.failOnError config triggers an exception"
         ValidationException e = thrown()
