@@ -1,24 +1,27 @@
 package alohavolunteer
 
-import grails.test.mixin.*
-import spock.lang.*
+import grails.testing.gorm.DomainUnitTest
+import grails.testing.web.controllers.ControllerUnitTest
+import spock.lang.Specification
 
-@TestFor(VolunteerController)
-@Mock(Volunteer)
-class VolunteerControllerSpec extends Specification {
+class VolunteerControllerSpec extends Specification
+        implements ControllerUnitTest<VolunteerController>, DomainUnitTest<Volunteer> {
 
     def populateValidParams(params) {
         assert params != null
 
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
-        assert false, "TODO: Provide a populateValidParams() implementation for this generated test suite"
+        params["lastName"] = 'Doe'
+        params["firstName"] = 'Jane'
+        params["email"] = 'bar@example.com'
+        params["phoneNumber"] = '321-7654'
+        params["recipientId"] = 999
+        params["nonce"] = 'asdfasdf'
     }
 
     void "Test the index action returns the correct model"() {
 
         when:"The index action is executed"
-            controller.index()
+            controller.index(10)
 
         then:"The model is correct"
             !model.volunteerList
