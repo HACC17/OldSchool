@@ -1,3 +1,7 @@
+facebook:
+    messenger:
+        verifyToken: ${FACEBOOK_MESSENGER_VERIFY_TOKEN}
+
 # The duplicate code in environments seems to be required in Grails 3.3.0:
 # https://stackoverflow.com/questions/46138943/does-the-grails-3-3-environments-config-work-inconsistently-in-spring-profiles
 environments:
