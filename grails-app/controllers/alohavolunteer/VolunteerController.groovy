@@ -2,15 +2,44 @@ package alohavolunteer
 
 import static org.springframework.http.HttpStatus.*
 import grails.gorm.transactions.Transactional
+import groovyx.net.http.HTTPBuilder
+import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.Method.*
 
 @Transactional(readOnly = true)
 class VolunteerController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    final String PAGE_TOKEN = grailsApplication.config['facebook.messenger.pageToken']
+    final String PAGE_ID = grailsApplication.config['facebook.messenger.pageId']
+
     def index(Integer max) {
+      if (request.post) {
+        def http = new HTTPBuilder('https://graph.facebook.com')
+        def path = "/v2.10/${PAGE_ID}/messages"
+        def result = http.request(POST) {
+          uri.path = path
+          requestContentType = JSON
+          body = [
+            recipient : [ user_ref:params.user_ref ],
+            message : [ text: "hello world!" ],
+            access_token : PAGE_TOKEN
+          ]
+          response.success = { resp ->
+            //println resp
+            redirect(url:grailsApplication.config['facebook.messenger.origin'] + '?thanks=true')
+          }
+          response.failure = { resp, reader ->
+            println "\n\nTHERE WAS AN ERROR!"
+            println reader
+            redirect(url:grailsApplication.config['facebook.messenger.origin'] + '?error=true')
+          }
+        }
+      } else {
         params.max = Math.min(max ?: 10, 100)
         respond Volunteer.list(params), model:[volunteerCount: Volunteer.count()]
+      }
     }
 
     def show(Volunteer volunteer) {

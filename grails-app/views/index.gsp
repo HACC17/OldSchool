@@ -120,7 +120,7 @@
                 </label>
               </div>
               <input type="hidden" name="user_ref" value="${nonce}" />
-              <button type="submit" class="btn btn-success btn-lg">Submit</button>
+              <button type="submit" class="btn btn-success btn-lg" onclick="FB.AppEvents.logEvent('MessengerCheckboxUserConfirmation', null, {'app_id':'${appId}','page_id':'${pageId}','user_ref':'${nonce}'});">Submit</button>
             </form>
             <div class="fb-messenger-checkbox"
               origin="${origin}"
