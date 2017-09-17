@@ -1,14 +1,15 @@
 configCheck: from application.yml
+appName: alohavolunteer
 spring:
     profiles:
         include: ${user.name}  # e.g., application-jbeutel.yml overrides
 server:
-    contextPath: /alohavolunteer
+    contextPath: /${appName}
 ---
 grails:
     profile: web
     codegen:
-        defaultPackage: alohavolunteer
+        defaultPackage: ${appName}
     spring:
         transactionManagement:
             proxies: false
