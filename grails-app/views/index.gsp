@@ -14,6 +14,25 @@
         <script src="https://use.fontawesome.com/3995bb261e.js"></script>
     </head>
     <body>
+      <script>
+       window.fbAsyncInit = function() {
+          FB.init({
+            appId      : '${appId}',
+            xfbml      : true,
+            version    : 'v2.10'
+          });
+
+        };
+
+        (function(d, s, id){
+          var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk')
+        );
+      </script>
         <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
@@ -45,6 +64,14 @@
           <div class="container">
             <h1>Hello world!</h1>
             <p>Hello world! This is HTML5 Boilerplate.</p>
+            <div class="fb-messenger-checkbox"
+              origin="${origin}"
+              page_id="${pageId}"
+              messenger_app_id="${appId}"
+              user_ref="${nonce}"
+              prechecked="true"
+              allow_login="true"
+              size="large"></div>
           </div>
         </section>
 
