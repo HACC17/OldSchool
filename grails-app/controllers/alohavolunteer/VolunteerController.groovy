@@ -23,7 +23,21 @@ class VolunteerController {
           requestContentType = JSON
           body = [
             recipient : [ user_ref:params.user_ref ],
-            message : [ text: "hello world!" ],
+            message : [
+              text: "Hi! Thanks for signing up to volunteer. Feel free to respond here and a staffer will get back to you!",
+              quick_replies: [
+                [
+                  content_type:"text",
+                  title:"Thanks!",
+                  payload:"1"
+                ],
+                [
+                  content_type:"text",
+                  title:"No Thanks",
+                  payload:"0"
+                ]
+              ]
+            ],
             access_token : PAGE_TOKEN
           ]
           response.success = { resp ->
