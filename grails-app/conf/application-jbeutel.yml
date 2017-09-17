@@ -1,5 +1,9 @@
 configCheck: from application-jbeutel.yml
 
+# @david the appId i put here is for our which needs to go through the official
+# facebook approval process. i'm using one of my already-approved appIds and
+# tokens in the production site in the meantime. also, i didn't want to check
+# in our actual page token into source code since HACC17 github is public
 facebook:
     messenger:
         appId: 278170452670068
