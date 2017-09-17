@@ -8,7 +8,6 @@ facebook:
     messenger:
         appId: 278170452670068
         origin: http://localhost:8080
-        pageToken: XXX
         pageId: 480155449028959
 
 # The duplicate code in environments seems to be required in Grails 3.3.0:

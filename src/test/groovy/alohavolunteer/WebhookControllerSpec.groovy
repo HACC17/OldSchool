@@ -10,7 +10,13 @@ class WebhookControllerSpec extends Specification implements ControllerUnitTest<
 
     def cleanup() {
     }
-    
+
+    void "external-config plugin does not work with GrailsUnitTest"() {
+
+        expect:
+        config['secretConfigCheck'] == [:]
+    }
+
     void "index without the proper params returns status 403"() {
 
         when:

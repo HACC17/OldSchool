@@ -3,6 +3,10 @@ appName: alohavolunteer
 spring:
     profiles:
         include: ${user.name}  # e.g., application-jbeutel.yml overrides
+grails:
+    config:
+        locations:
+            - ~/grails-conf/${appName}-secret-config.yml
 server:
     contextPath: /${appName}
 ---

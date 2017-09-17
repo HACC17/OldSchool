@@ -62,6 +62,7 @@ dependencies {
 //    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
     runtime "org.postgresql:postgresql:42.1.4"
+    compile "org.grails.plugins:external-config:1.1.2"
 }
 
 bootRun {
