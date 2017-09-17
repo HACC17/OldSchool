@@ -1,9 +1,9 @@
 # AlohaVolunteer
 
 * hello world in [Grails 3.3.0](http://docs.grails.org/3.3.0/guide/gettingStarted.html)
-* [deployed](https://guarded-atoll-72753.herokuapp.com/) to Heroku (in root context)
+* [deployed](https://www.alohavolunteer.org/) to Heroku (in root context)
 * changed prod db to Postgres (update) on Heroku
-* added basic [Volunteer](https://guarded-atoll-72753.herokuapp.com/volunteer) domain w/ static scaffolding and tests
+* added basic [Volunteer](https://www.alohavolunteer.org/volunteer) domain w/ static scaffolding and tests
 
 <div class="alert alert-warning">
 :warning:
