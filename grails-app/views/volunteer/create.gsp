@@ -14,25 +14,6 @@
         <script src="https://use.fontawesome.com/3995bb261e.js"></script>
     </head>
     <body>
-      <script>
-       window.fbAsyncInit = function() {
-          FB.init({
-            appId      : '${appId}',
-            xfbml      : true,
-            version    : 'v2.10'
-          });
-
-        };
-
-        (function(d, s, id){
-          var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-          }(document, 'script', 'facebook-jssdk')
-        );
-      </script>
         <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
@@ -91,17 +72,47 @@
               size="large"></div>
           </div>
         </section>
-
-        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <script type="text/javascript">
+         window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '${appId}',
+              xfbml      : true,
+              version    : 'v2.10'
+            });
+            FB.Event.subscribe('messenger_checkbox', function(e) {
+               console.log(e);
+               if (e.event === 'rendered') {
+                 console.log("Plugin was rendered");
+               } else if (e.event === 'checkbox') {
+                 var checkboxState = e.state;
+                 console.log("Checkbox state: " + checkboxState);
+                 if ("checked" === checkboxState) {
+                   console.log("checkbox validated");
+                 }
+               } else if (e.event === 'not_you') {
+                 console.log("User clicked 'not you'");
+               } else if (e.event === 'hidden') {
+                 console.log("Plugin was hidden");
+               }
+             });
+          };
+          (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) {return;}
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/en_US/sdk.js";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk')
+          );
+        </script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-
-        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID.
         <script>
             window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
             ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
         </script>
-        <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+        <script src="https://www.google-analytics.com/analytics.js" async defer></script> -->
     </body>
 </html>
