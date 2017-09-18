@@ -39,7 +39,9 @@ class VolunteerControllerFunctionalSpec extends GebReportingSpec {
         // because it was saved outside the @Rollback test transaction.
         // But, Grails doesn't provide a session to cleanupSpec(), so we create our own.
         Volunteer.withNewSession {
-            example.delete(flush: true)     // flush is required to actually delete, although I don't know why
+            Volunteer.list().each {
+                it.delete(flush: true)     // flush is required to actually delete, although I don't know why
+            }
         }
     }
     
@@ -52,12 +54,49 @@ class VolunteerControllerFunctionalSpec extends GebReportingSpec {
         grailsApplication.config['configCheck'] == "from application${profileOverride}.yml"
     }
 
-    void "names appear in list"() {
+    void "can save a volunteer in the db"() {
 
-        when:
-        to VolunteerListPage
+        expect: "setup data is already in the db"
+        Volunteer.count() == 1
+
+        when: "signing up a new volunteer"
+        to VolunteerCreatePage
+        $("form").firstName = 'Jane'
+        $("form").lastName = 'Doe'
+        $("form").email = 'jane@example.com'
+        $("form").phoneNumber = '555-1212'
+        submitButton.click()
 
         then:
-        cell(1, 'First Name').text() == example.firstName
+        Volunteer.count() == 2
+        def saved = Volunteer.findByFirstName('Jane')
+        saved.phoneNumber == '555-1212'
+    }
+
+    void "cannot save a duplicate email in the db"() {
+
+        given: "a volunteer already in the db"
+        assert Volunteer.count() == 2       // XXX this should be 1
+        def existing = Volunteer.list().first()
+
+        when: "signing up a new volunteer with a duplicate email"
+        to VolunteerCreatePage
+        $("form").firstName = 'Jack'
+        $("form").lastName = 'Doe'
+        $("form").email = existing.email
+        $("form").phoneNumber = '555-6666'
+        submitButton.click()
+
+        then: "the duplicate email was not saved"
+        Volunteer.count() == 2       // XXX this should be 1
+        !Volunteer.findByFirstName('Jack')
+
+        and: "still on the create page, with submitted values"
+        at VolunteerCreatePage
+        $("form").firstName == 'Jack'
+        $("form").lastName == 'Doe'
+        $("form").email == existing.email
+        $("form").phoneNumber == '555-6666'
+        errors.text() =~ /email.* must be unique/
     }
 }

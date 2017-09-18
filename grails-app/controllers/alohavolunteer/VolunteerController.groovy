@@ -1,6 +1,5 @@
 package alohavolunteer
 
-import static org.springframework.http.HttpStatus.*
 import grails.gorm.transactions.Transactional
 import groovyx.net.http.HTTPBuilder
 import static groovyx.net.http.ContentType.*
@@ -9,16 +8,37 @@ import static groovyx.net.http.Method.*
 @Transactional(readOnly = true)
 class VolunteerController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [create: "GET", save: "POST"]
 
-    def index(Integer max) {
+    private facebookConfig() {
+        def fm = grailsApplication.config['facebook.messenger']
+        [
+                appId : fm.appId,
+                origin: fm.origin,
+                pageId: fm.pageId
+        ]
+    }
 
-      final String PAGE_TOKEN = grailsApplication.config['facebook.messenger.pageToken']
-      final String PAGE_ID = grailsApplication.config['facebook.messenger.pageId']
+    def create() {
+        def model = facebookConfig() + [volunteer: new Volunteer(params)]
+        render view: 'create', model: model
+    }
 
-      if (request.post) {
+    @Transactional
+    def save(Volunteer volunteer) {
+
+        if (volunteer.hasErrors()) {
+            transactionStatus.setRollbackOnly()
+            render view: 'create', model: facebookConfig() + [volunteer: volunteer]
+            return
+        }
+
+        volunteer.save flush:true
+        flash.message = 'Saved'
+
+        def fm = grailsApplication.config['facebook.messenger']
         def http = new HTTPBuilder('https://graph.facebook.com')
-        def path = "/v2.10/${PAGE_ID}/messages"
+        def path = "/v2.10/${fm.pageId}/messages"
         def result = http.request(POST) {
           uri.path = path
           requestContentType = JSON
@@ -39,113 +59,17 @@ class VolunteerController {
                 ]
               ]
             ],
-            access_token : PAGE_TOKEN
+            access_token : fm.pageToken
           ]
           response.success = { resp ->
             //println resp
-            redirect(url:grailsApplication.config['facebook.messenger.origin'] + '?thanks=true')
+            redirect(url: "${fm.origin}?thanks=true")
           }
           response.failure = { resp, reader ->
             println "\n\nTHERE WAS AN ERROR!"
             println reader
-            redirect(url:grailsApplication.config['facebook.messenger.origin'] + '?error=true')
+            redirect(url: "${fm.origin}?error=true")
           }
-        }
-      } else {
-        params.max = Math.min(max ?: 10, 100)
-        respond Volunteer.list(params), model:[volunteerCount: Volunteer.count()]
-      }
-    }
-
-    def show(Volunteer volunteer) {
-        respond volunteer
-    }
-
-    def create() {
-        respond new Volunteer(params)
-    }
-
-    @Transactional
-    def save(Volunteer volunteer) {
-        if (volunteer == null) {
-            transactionStatus.setRollbackOnly()
-            notFound()
-            return
-        }
-
-        if (volunteer.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond volunteer.errors, view:'create'
-            return
-        }
-
-        volunteer.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'volunteer.label', default: 'Volunteer'), volunteer.id])
-                redirect volunteer
-            }
-            '*' { respond volunteer, [status: CREATED] }
-        }
-    }
-
-    def edit(Volunteer volunteer) {
-        respond volunteer
-    }
-
-    @Transactional
-    def update(Volunteer volunteer) {
-        if (volunteer == null) {
-            transactionStatus.setRollbackOnly()
-            notFound()
-            return
-        }
-
-        if (volunteer.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond volunteer.errors, view:'edit'
-            return
-        }
-
-        volunteer.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'volunteer.label', default: 'Volunteer'), volunteer.id])
-                redirect volunteer
-            }
-            '*'{ respond volunteer, [status: OK] }
-        }
-    }
-
-    @Transactional
-    def delete(Volunteer volunteer) {
-
-        if (volunteer == null) {
-            transactionStatus.setRollbackOnly()
-            notFound()
-            return
-        }
-
-        volunteer.delete flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'volunteer.label', default: 'Volunteer'), volunteer.id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
-    }
-
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'volunteer.label', default: 'Volunteer'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
         }
     }
 }
