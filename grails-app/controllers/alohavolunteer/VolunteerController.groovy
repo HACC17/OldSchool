@@ -21,6 +21,7 @@ class VolunteerController {
 
     def create() {
         def model = facebookConfig() + [volunteer: new Volunteer(params)]
+        model.nonce = UUID.randomUUID().toString()
         render view: 'create', model: model
     }
 
@@ -33,19 +34,17 @@ class VolunteerController {
             return
         }
 
-        volunteer.save flush:true
-        flash.message = 'Saved'
-
         def fm = grailsApplication.config['facebook.messenger']
         def http = new HTTPBuilder('https://graph.facebook.com')
         def path = "/v2.10/${fm.pageId}/messages"
+        println "sending to [${params.user_ref}]"
         def result = http.request(POST) {
           uri.path = path
           requestContentType = JSON
           body = [
             recipient : [ user_ref:params.user_ref ],
             message : [
-              text: "Hi! Thanks for signing up to volunteer. Feel free to respond here and a staffer will get back to you!",
+              text: "Aloha! Thanks for signing up to volunteer. Feel free to respond here and a staffer will get back to you!",
               quick_replies: [
                 [
                   content_type:"text",
@@ -64,6 +63,8 @@ class VolunteerController {
           response.success = { resp ->
             //println resp
             redirect(url: "${fm.origin}?thanks=true")
+            volunteer.save flush:true
+            flash.message = 'Saved'
           }
           response.failure = { resp, reader ->
             println "\n\nTHERE WAS AN ERROR!"

@@ -59,6 +59,7 @@
                           <f:all bean="volunteer"/>
                           <g:hiddenField name="nonce" value="${this.volunteer.nonce}"/>
                       </fieldset>
+                      <input type="hidden" name="user_ref" value="${nonce}" />
                       <button type="submit" class="btn btn-success btn-lg" onclick="FB.AppEvents.logEvent('MessengerCheckboxUserConfirmation', null, {'app_id':'${appId}','page_id':'${pageId}','user_ref':'${nonce}'});">Submit</button>
                   </g:form>
               </div>
@@ -74,11 +75,6 @@
         </section>
         <script type="text/javascript">
          window.fbAsyncInit = function() {
-            FB.init({
-              appId      : '${appId}',
-              xfbml      : true,
-              version    : 'v2.10'
-            });
             FB.Event.subscribe('messenger_checkbox', function(e) {
                console.log(e);
                if (e.event === 'rendered') {
@@ -94,6 +90,11 @@
                } else if (e.event === 'hidden') {
                  console.log("Plugin was hidden");
                }
+             });
+             FB.init({
+               appId      : '${appId}',
+               xfbml      : true,
+               version    : 'v2.10'
              });
           };
           (function(d, s, id){
