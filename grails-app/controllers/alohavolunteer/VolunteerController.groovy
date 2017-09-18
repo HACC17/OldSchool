@@ -11,10 +11,11 @@ class VolunteerController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    final String PAGE_TOKEN = grailsApplication.config['facebook.messenger.pageToken']
-    final String PAGE_ID = grailsApplication.config['facebook.messenger.pageId']
-
     def index(Integer max) {
+
+      final String PAGE_TOKEN = grailsApplication.config['facebook.messenger.pageToken']
+      final String PAGE_ID = grailsApplication.config['facebook.messenger.pageId']
+
       if (request.post) {
         def http = new HTTPBuilder('https://graph.facebook.com')
         def path = "/v2.10/${PAGE_ID}/messages"
