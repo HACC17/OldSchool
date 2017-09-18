@@ -28,6 +28,7 @@
             <g:form resource="${this.volunteer}" method="POST">
                 <fieldset class="form">
                     <f:all bean="volunteer"/>
+                    <g:hiddenField name="nonce" value="${this.volunteer.nonce}"/>
                 </fieldset>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
