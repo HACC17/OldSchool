@@ -21,7 +21,6 @@ class VolunteerController {
 
     def create() {
         def model = facebookConfig() + [volunteer: new Volunteer(params)]
-        model.nonce = UUID.randomUUID().toString()
         render view: 'create', model: model
     }
 
