@@ -63,8 +63,6 @@ class VolunteerController {
           response.success = { resp ->
             //println resp
             redirect(url: "${fm.origin}?thanks=true")
-            volunteer.save flush:true
-            flash.message = 'Saved'
           }
           response.failure = { resp, reader ->
             println "\n\nTHERE WAS AN ERROR!"
@@ -72,5 +70,7 @@ class VolunteerController {
             redirect(url: "${fm.origin}?error=true")
           }
         }
+        volunteer.save flush:true
+        flash.message = 'Saved'
     }
 }

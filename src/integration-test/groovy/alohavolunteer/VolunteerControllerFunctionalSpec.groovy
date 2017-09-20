@@ -67,7 +67,10 @@ class VolunteerControllerFunctionalSpec extends GebReportingSpec {
         $("form").phoneNumber = '555-1212'
         submitButton.click()
 
-        then:
+        then: "Facebook returns an error, because the test isn't configured to successfully use Facebook"
+        waitFor {currentUrl.endsWith('error=true')}
+
+        and:
         Volunteer.count() == 2
         def saved = Volunteer.findByFirstName('Jane')
         saved.phoneNumber == '555-1212'
@@ -85,6 +88,17 @@ class VolunteerControllerFunctionalSpec extends GebReportingSpec {
         $("form").lastName = 'Doe'
         $("form").email = existing.email
         $("form").phoneNumber = '555-6666'
+
+        and:
+        // hack to scroll submitButton up to be fully visible in the window,
+        // since it is lower than in the previous feature,
+        // because of the error message from the previous feature
+        // (but then scroll down to firstName, because submitButton is obscured
+        // by the absolute banner at the top of the page)
+        interact {
+            moveToElement(submitButton)
+            moveToElement($("#firstName"))
+        }
         submitButton.click()
 
         then: "the duplicate email was not saved"
