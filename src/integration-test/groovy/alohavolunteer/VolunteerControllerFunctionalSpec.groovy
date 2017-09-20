@@ -76,7 +76,7 @@ class VolunteerControllerFunctionalSpec extends GebReportingSpec {
         saved.phoneNumber == '555-1212'
     }
 
-    void "cannot save a duplicate email in the db"() {
+    void "can save a duplicate email in the db"() {
 
         given: "a volunteer already in the db"
         assert Volunteer.count() == 2       // XXX this should be 1
@@ -101,16 +101,11 @@ class VolunteerControllerFunctionalSpec extends GebReportingSpec {
         }
         submitButton.click()
 
-        then: "the duplicate email was not saved"
-        Volunteer.count() == 2       // XXX this should be 1
-        !Volunteer.findByFirstName('Jack')
+        then: "Facebook returns an error, because the test isn't configured to successfully use Facebook"
+        waitFor {currentUrl.endsWith('error=true')}
 
-        and: "still on the create page, with submitted values"
-        at VolunteerCreatePage
-        $("form").firstName == 'Jack'
-        $("form").lastName == 'Doe'
-        $("form").email == existing.email
-        $("form").phoneNumber == '555-6666'
-        errors.text() =~ /email.* must be unique/
+        and: "the duplicate email was saved"
+        Volunteer.count() == 3       // XXX this should be 2
+        Volunteer.findByFirstName('Jack')
     }
 }
