@@ -64,6 +64,7 @@ dependencies {
 
     runtime "org.postgresql:postgresql:42.1.4"
     compile "org.grails.plugins:external-config:1.1.2"
+    compile "org.spockframework:spock-core:1.1-groovy-2.4"  // for PollingConditions in VolunteerController
 }
 
 bootRun {

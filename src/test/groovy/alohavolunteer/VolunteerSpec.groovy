@@ -24,7 +24,7 @@ class VolunteerSpec extends Specification implements DomainUnitTest<Volunteer> {
         v.email = 'foo@example.com'
         v.phoneNumber = '123-4567'
         v.nonce = 'fake nonce'
-        v.recipientId = 42
+        v.recipientId = '42'
     }
 
     static Volunteer constructExampleVolunteer() {

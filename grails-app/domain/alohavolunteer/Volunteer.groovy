@@ -8,7 +8,7 @@ class Volunteer {
     String phoneNumber
 
     // for Facebook
-    Long recipientId
+    String recipientId
     String nonce
 
     // GORM auto-timestamps
