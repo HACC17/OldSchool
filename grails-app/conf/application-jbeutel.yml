@@ -8,6 +8,7 @@ facebook:
     messenger:
         appId: 278170452670068
         origin: http://localhost:8080
+        pageToken: EAAD8ZCpsEtnQBAGlsQfponq5ZCSBpT6jkkE8ScOdH30dLbDTJlFaycAQBmulN35XfeBAzo5kGViaUJjcINMPUWuu4ZBoMvcFp1YL8sj1BNkhwu9sZACN7DaMra8dmZACoDb8MCS9coohsZBHCvaoqtwKZByyJ7SfEUGxtExzq1W0QZDZD
         pageId: 480155449028959
 
 # The duplicate code in environments seems to be required in Grails 3.3.0:

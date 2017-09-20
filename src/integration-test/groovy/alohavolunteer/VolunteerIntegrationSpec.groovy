@@ -32,27 +32,15 @@ class VolunteerIntegrationSpec extends Specification {
         grailsApplication.config['configCheck'] == "from application${profileOverride}.yml"
     }
 
-    void "global failOnError triggers exception on saving non-unique email"() {
+    void "global failOnError triggers exception on saving invalid email"() {
 
-        given: "one persisted Volunteer"
+        when: "saving a Volunteer with an invalid email address"
         def v1 = constructExampleVolunteer()
+        v1.email = 'bad'
         v1.save(flush: true)
-
-        when: "saving another Volunteer with a different email address"
-        def v2 = constructExampleVolunteer()
-        v2.email = 'bar@example.com'
-        v2.save(flush: true)
-
-        then: "it was added"
-        Volunteer.count() == old(Volunteer.count()) + 1
-        Volunteer.findByEmail(v2.email)
-
-        when: "trying to save another Volunteer with a duplicate email address"
-        def v3 = constructExampleVolunteer()
-        v3.save(flush: true)
 
         then: "the global grails.gorm.failOnError config triggers an exception"
         ValidationException e = thrown()
-        ['email', 'unique'].every {e.message.contains(it)}
+        e.message.contains('not a valid e-mail address')
     }
 }

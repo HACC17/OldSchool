@@ -115,27 +115,27 @@
                     <fieldset>
                       <div class="form-group row">
                         <label for="firstName" class="col-sm-2 col-md-1 col-form-label">Name:</label>
-                        <div class="col-sm-5"><input type="text" class="form-control" placeholder="first name" name="firstName" required="" id="firstName" /></div>
-                        <div class="col-sm-5"><input type="text" class="form-control" name="lastName" placeholder="last name" required="" id="lastName" /></div>
+                        <div class="col-sm-5"><input type="text" class="form-control" placeholder="first name" name="firstName" required="" id="firstName" value="${this.volunteer.firstName}" /></div>
+                        <div class="col-sm-5"><input type="text" class="form-control" name="lastName" placeholder="last name" required="" id="lastName" value="${this.volunteer.lastName}" /></div>
                       </div>
                       <div class="form-group row">
                         <label for="email" class="col-sm-2 col-md-1 col-form-label">Email:</label>
-                        <div class="col-sm-10"><input class="form-control" placeholder="your email address" type="email" name="email" value="" required="" id="email" /></div>
+                        <div class="col-sm-10"><input class="form-control" placeholder="your email address" type="email" name="email" required="" id="email" value="${this.volunteer.email}" /></div>
                       </div>
                       <div class="form-group row">
                         <label for="email" class="col-sm-2 col-md-1 col-form-label">Phone:</label>
-                        <div class="col-sm-10"><input type="text" name="phoneNumber" class="form-control" placeholder="e.g. 808-555-1234" required="" pattern="((&#92;(&#92;d{3}&#92;) ?)|(&#92;d{3}-))?&#92;d{3}-&#92;d{4}" id="phoneNumber" /></div>
+                        <div class="col-sm-10"><input type="text" name="phoneNumber" class="form-control" placeholder="e.g. 808-555-1234" required="" pattern="((&#92;(&#92;d{3}&#92;) ?)|(&#92;d{3}-))?&#92;d{3}-&#92;d{4}" id="phoneNumber" value="${this.volunteer.phoneNumber}" /></div>
                       </div>
-                      <g:hiddenField name="user_ref" value="${this.volunteer.nonce}"/>
+                      <g:hiddenField name="nonce" value="${nonce}"/>
                     </fieldset>
-                    <button type="submit" class="btn btn-success btn-lg" onclick="FB.AppEvents.logEvent('MessengerCheckboxUserConfirmation', null, {'app_id':'${appId}','page_id':'${pageId}','user_ref':'${this.volunteer.nonce}'});">Submit</button>
+                    <button type="submit" class="btn btn-success btn-lg" onclick="FB.AppEvents.logEvent('MessengerCheckboxUserConfirmation', null, {'app_id':'${appId}','page_id':'${pageId}','user_ref':'${nonce}'});">Submit</button>
                   </g:form>
               </div>
             <div class="fb-messenger-checkbox"
               origin="${origin}"
               page_id="${pageId}"
               messenger_app_id="${appId}"
-              user_ref="${this.volunteer.nonce}"
+              user_ref="${nonce}"
               prechecked="true"
               allow_login="true"
               size="large"></div>

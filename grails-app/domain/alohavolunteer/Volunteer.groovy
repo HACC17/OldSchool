@@ -8,8 +8,8 @@ class Volunteer {
     String phoneNumber
 
     // for Facebook
-    Long recipientId
-    String nonce = UUID.randomUUID().toString()
+    String recipientId
+    String nonce
 
     // GORM auto-timestamps
     @SuppressWarnings("GroovyUnusedDeclaration")
@@ -20,7 +20,7 @@ class Volunteer {
     static constraints = {
         lastName blank: false
         firstName blank: false
-        email email: true, unique: true, blank: false
+        email email: true, blank: false
         phoneNumber blank: false, matches: /((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}/
         recipientId display: false, nullable: true  // null until Facebook provides
         nonce display: false

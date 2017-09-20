@@ -24,7 +24,7 @@ class VolunteerSpec extends Specification implements DomainUnitTest<Volunteer> {
         v.email = 'foo@example.com'
         v.phoneNumber = '123-4567'
         v.nonce = 'fake nonce'
-        v.recipientId = 42
+        v.recipientId = '42'
     }
 
     static Volunteer constructExampleVolunteer() {
@@ -87,7 +87,7 @@ class VolunteerSpec extends Specification implements DomainUnitTest<Volunteer> {
         null                || ['nullable']
     }
 
-    void "email is unique"() {
+    void "email is not unique"() {
 
         when: "persisting a Volunteer"
         def v1 = constructExampleVolunteer()
@@ -100,25 +100,13 @@ class VolunteerSpec extends Specification implements DomainUnitTest<Volunteer> {
         when: "trying to create another Volunteer with the same email address"
         def v2 = constructExampleVolunteer()
 
-        then: "the duplicate email is not valid"
-        !v2.validate()
-        v2.errors['email']?.code == 'unique'
+        then: "the duplicate email is valid"
+        v2.validate()
 
-        and: "that is the only error"
-        v2.errors.allErrors*.code == ['unique']
+        and: "can save"
+        v2.save()
 
-        and: "cannot save, either (but DomainUnitTest's mock db ignores the global failOnError config)"
-        !v2.save()
-
-        and: "no Volunteer was added"
-        Volunteer.count() == old(Volunteer.count())
-
-
-        when: "specifically requesting an exception from the mock db on an invalid save"
-        v2.save(failOnError: true)
-
-        then:
-        ValidationException e = thrown()
-        ['email', 'unique'].every {e.message.contains(it)}
+        and: "one more Volunteer was added"
+        Volunteer.count() == old(Volunteer.count()) + 1
     }
 }
