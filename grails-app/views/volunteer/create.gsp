@@ -17,7 +17,7 @@
         body { padding-top:32px; }
         @media (max-width: 993px) {
           .shaka-icon { width:24px;height:18px; }
-          body { padding-top:0px; margin-top:-40px; }
+          body { padding-top:0px; }
         }
         </style>
     </head>
@@ -72,30 +72,37 @@
               </svg>
               Aloha Volunteer
             </a>
-            <!--<button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
               Menu
               <i class="fa fa-bars"></i>
             </button>
             <div class="navbar-collapse collapse" id="navbarResponsive" style="">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
+                  <a class="nav-link js-scroll-trigger" href="#info">Volunteer Info</a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                   <a class="nav-link js-scroll-trigger" href="#about">About</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-                </li>
+                </li>-->
               </ul>
-            </div>-->
+            </div>
           </div>
         </nav>
         <section>
           <div class="container">
+              <p>Aloha! Thanks for your interest in volunteering!</p>
+              <p>
+                Election Day Officials are recruited to assist voters, provide operational support, and ensure the integrity of the voting process.
+              </p>
+              <p>
+                Volunteers gain first-hand knowledge and experience in the electoral process while receiving a stipend. Work hours vary by position.
+              </p>
               <div id="create-volunteer" class="content scaffold-create" role="main">
                   <g:if test="${flash.message}">
-                      <div class="message" role="status">${flash.message}</div>
+                      <div class="alert alert-success" role="status">${flash.message}</div>
                   </g:if>
                   <g:hasErrors bean="${this.volunteer}">
                       <ul class="errors" role="alert">
@@ -105,11 +112,23 @@
                       </ul>
                   </g:hasErrors>
                   <g:form controller="volunteer" action="save" method="POST">
-                      <fieldset class="form">
-                          <f:all bean="volunteer"/>
-                          <g:hiddenField name="user_ref" value="${this.volunteer.nonce}"/>
-                      </fieldset>
-                      <button type="submit" class="btn btn-success btn-lg" onclick="FB.AppEvents.logEvent('MessengerCheckboxUserConfirmation', null, {'app_id':'${appId}','page_id':'${pageId}','user_ref':'${this.volunteer.nonce}'});">Submit</button>
+                    <fieldset>
+                      <div class="form-group row">
+                        <label for="firstName" class="col-sm-2 col-md-1 col-form-label">Name:</label>
+                        <div class="col-sm-5"><input type="text" class="form-control" placeholder="first name" name="firstName" required="" id="firstName" /></div>
+                        <div class="col-sm-5"><input type="text" class="form-control" name="lastName" placeholder="last name" required="" id="lastName" /></div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-md-1 col-form-label">Email:</label>
+                        <div class="col-sm-10"><input class="form-control" placeholder="your email address" type="email" name="email" value="" required="" id="email" /></div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-md-1 col-form-label">Phone:</label>
+                        <div class="col-sm-10"><input type="text" name="phoneNumber" class="form-control" placeholder="e.g. 808-555-1234" required="" pattern="((&#92;(&#92;d{3}&#92;) ?)|(&#92;d{3}-))?&#92;d{3}-&#92;d{4}" id="phoneNumber" /></div>
+                      </div>
+                      <g:hiddenField name="user_ref" value="${this.volunteer.nonce}"/>
+                    </fieldset>
+                    <button type="submit" class="btn btn-success btn-lg" onclick="FB.AppEvents.logEvent('MessengerCheckboxUserConfirmation', null, {'app_id':'${appId}','page_id':'${pageId}','user_ref':'${this.volunteer.nonce}'});">Submit</button>
                   </g:form>
               </div>
             <div class="fb-messenger-checkbox"
@@ -121,6 +140,25 @@
               allow_login="true"
               size="large"></div>
           </div>
+          <hr />
+          <div class="container" id="info">
+            <h4>Election Dates</h4>
+            <ul class="list-unstyled">
+              <li>Primary Election: August 11, 2018</li>
+              <li>General Election: November 6, 2018</li>
+              <li>Polls are open from 7:00 am to 6:00 pm. Work hours vary by position.</li>
+            </ul>
+
+            <h4>Qualifications</h4>
+            <ul>
+              <li>At least 16 years of age on or before June 30 of the election year.</li>
+              <li>A registered or pre-registered voter in the State of Hawaii.</li>
+              <li>Able to read and write English.</li>
+            </ul>
+          </div>
+        </section>
+        <section id="positions">
+
         </section>
         <script type="text/javascript">
          window.fbAsyncInit = function() {
