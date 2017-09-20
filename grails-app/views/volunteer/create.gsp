@@ -126,7 +126,7 @@
                         <label for="email" class="col-sm-2 col-md-1 col-form-label">Phone:</label>
                         <div class="col-sm-10"><input type="text" name="phoneNumber" class="form-control" placeholder="e.g. 808-555-1234" required="" pattern="((&#92;(&#92;d{3}&#92;) ?)|(&#92;d{3}-))?&#92;d{3}-&#92;d{4}" id="phoneNumber" /></div>
                       </div>
-                      <g:hiddenField name="user_ref" value="${this.volunteer.nonce}"/>
+                      <g:hiddenField name="nonce" value="${this.volunteer.nonce}"/>
                     </fieldset>
                     <button type="submit" class="btn btn-success btn-lg" onclick="FB.AppEvents.logEvent('MessengerCheckboxUserConfirmation', null, {'app_id':'${appId}','page_id':'${pageId}','user_ref':'${this.volunteer.nonce}'});">Submit</button>
                   </g:form>

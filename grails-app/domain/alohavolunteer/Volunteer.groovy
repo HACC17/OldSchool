@@ -9,7 +9,7 @@ class Volunteer {
 
     // for Facebook
     Long recipientId
-    String nonce = UUID.randomUUID().toString()
+    String nonce
 
     // GORM auto-timestamps
     @SuppressWarnings("GroovyUnusedDeclaration")
