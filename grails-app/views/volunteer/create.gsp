@@ -79,7 +79,7 @@
             <div class="navbar-collapse collapse" id="navbarResponsive" style="">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link js-scroll-trigger" href="#info">Volunteer Info</a>
+                  <a class="nav-link js-scroll-trigger" href="#info">Election Info</a>
                 </li>
                 <!--<li class="nav-item">
                   <a class="nav-link js-scroll-trigger" href="#about">About</a>
